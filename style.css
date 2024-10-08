@@ -3,6 +3,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100dvh;
+    min-height: -webkit-fill-available;
     background-color: #282C34;
     color: #98C379;
     font-size: clamp(5vw, 6vw, 15vh);
