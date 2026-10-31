@@ -214,6 +214,8 @@ h1 {
 
 .links {
     margin-top: 2.5rem;
+    display: flex;
+    gap: 1.5rem;
     opacity: 0;
     animation: fade-in 0.8s ease-out 3.6s forwards;
 }
