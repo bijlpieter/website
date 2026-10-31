@@ -1,23 +1,256 @@
+:root {
+    --bg: #282C34;
+    --bg-card: rgba(33, 37, 43, 0.72);
+    --fg: #ABB2BF;
+    --dim: #5C6370;
+    --green: #98C379;
+    --blue: #61AFEF;
+    --yellow: #E5C07B;
+    --purple: #C678DD;
+    --cyan: #56B6C2;
+    --mono: ui-monospace, "SFMono-Regular", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
 body {
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--mono);
+}
+
+body {
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100dvh;
-    min-height: -webkit-fill-available;
-    background-color: #282C34;
-    color: #98C379;
-    font-size: clamp(5vw, 6vw, 15vh);
-    margin: 0;
+    overflow-x: hidden;
+}
+
+/* ---------- background power grid ---------- */
+
+#grid {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0;
+    animation: fade-in 2.5s ease-out 0.3s forwards;
+}
+
+/* soft vignette so the text stays readable */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(40, 44, 52, 0.55) 0%, rgba(40, 44, 52, 0) 45%, rgba(24, 26, 31, 0.8) 100%);
+}
+
+/* ---------- hero ---------- */
+
+.hero {
+    position: relative;
+    z-index: 1;
+    width: min(64rem, 100% - 2.5rem);
+    padding: 4rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.prompt {
+    margin: 0 0 0.5rem;
+    font-size: clamp(0.85rem, 1.6vw, 1.05rem);
+    color: var(--dim);
+    opacity: 0;
+    animation: fade-up 0.6s ease-out forwards;
+}
+
+.prompt .path {
+    color: var(--cyan);
+}
+
+.prompt .dollar {
+    color: var(--purple);
 }
 
 h1 {
-    font-family: monospace;
-    border-right: 0.04ch solid #61AFEF;
+    margin: 0;
+    font-size: clamp(2.6rem, 10vw, 7rem);
+    font-weight: 700;
+    color: var(--green);
     white-space: nowrap;
     overflow: hidden;
     width: 0;
-    animation: typing 2s steps(11, end) 1 forwards, blink-caret 1.5s step-end infinite 2s;
+    border-right: 0.06em solid var(--blue);
+    text-shadow: 0 0 24px rgba(152, 195, 121, 0.25);
+    animation:
+        typing 1.8s steps(11, end) 0.5s forwards,
+        blink-caret 0.75s step-end 4,
+        caret-off 0.01s 3s forwards;
 }
+
+.role {
+    margin: 1rem 0 0;
+    min-height: 1.5em;
+    font-size: clamp(1rem, 2.6vw, 1.6rem);
+    color: var(--fg);
+    opacity: 0;
+    animation: fade-in 0.4s ease-out 2.5s forwards;
+}
+
+.role .gt {
+    color: var(--purple);
+}
+
+#role {
+    color: var(--yellow);
+}
+
+.caret {
+    display: inline-block;
+    width: 0.55em;
+    height: 1.1em;
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    background: var(--blue);
+    animation: blink 1s step-end infinite;
+}
+
+/* ---------- focus cards ---------- */
+
+.focus {
+    list-style: none;
+    margin: 3rem 0 0;
+    padding: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
+    gap: 1rem;
+}
+
+.card {
+    --x: 50%;
+    --y: 50%;
+    position: relative;
+    padding: 1.25rem 1.25rem 1.4rem;
+    text-align: left;
+    background: var(--bg-card);
+    border: 1px solid rgba(171, 178, 191, 0.1);
+    border-radius: 10px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fade-up 0.7s cubic-bezier(.2, .7, .2, 1) calc(3s + var(--i) * 0.12s) forwards;
+    transition: border-color 0.3s, box-shadow 0.3s, translate 0.3s;
+}
+
+/* glow that follows the cursor */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(260px circle at var(--x) var(--y), rgba(97, 175, 239, 0.16), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.card:hover {
+    border-color: rgba(97, 175, 239, 0.45);
+    box-shadow: 0 10px 30px -12px rgba(97, 175, 239, 0.35);
+    translate: 0 -4px;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.card .tag {
+    font-size: 0.75rem;
+    color: var(--dim);
+}
+
+.card h2 {
+    margin: 0.4rem 0 0.5rem;
+    font-size: 1.05rem;
+    color: var(--blue);
+}
+
+.card:nth-child(2) h2 {
+    color: var(--yellow);
+}
+
+.card:nth-child(3) h2 {
+    color: var(--green);
+}
+
+.card:nth-child(4) h2 {
+    color: var(--purple);
+}
+
+.card p {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--fg);
+}
+
+/* ---------- links ---------- */
+
+.links {
+    margin-top: 2.5rem;
+    opacity: 0;
+    animation: fade-in 0.8s ease-out 3.6s forwards;
+}
+
+.links a {
+    position: relative;
+    color: var(--cyan);
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.25rem 0;
+}
+
+.links a::before {
+    content: "./";
+    color: var(--dim);
+}
+
+.links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.links a:hover::after,
+.links a:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* ---------- keyframes ---------- */
 
 @keyframes typing {
     from {
@@ -37,6 +270,62 @@ h1 {
     }
 
     50% {
-        border-color: #61AFEF;
+        border-color: var(--blue);
+    }
+}
+
+@keyframes caret-off {
+    to {
+        border-color: transparent;
+    }
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-in {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ---------- accessibility ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    #grid,
+    .prompt,
+    .role,
+    .card,
+    .links {
+        opacity: 1;
+        transform: none;
+    }
+
+    h1 {
+        width: 11ch;
+        border-color: transparent;
     }
 }

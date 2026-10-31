@@ -5,12 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pieter Bijl</title>
+    <meta name="description" content="Pieter Bijl — software engineer working on energy markets, energy grids and data science.">
+    <meta name="theme-color" content="#282C34">
     <link rel="icon" type="image/x-icon" href="assets/favicon.png">
     <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
 </head>
 
 <body>
-    <h1>Pieter Bijl</h1>
+    <canvas id="grid" aria-hidden="true"></canvas>
+
+    <main class="hero">
+        <p class="prompt"><span class="path">~/bijl.io</span> <span class="dollar">$</span> whoami</p>
+
+        <h1>Pieter Bijl</h1>
+
+        <p class="role" aria-label="Software engineer — energy markets, energy grids, data science">
+            <span class="gt">&gt;</span> <span id="role" aria-hidden="true"></span><span class="caret" aria-hidden="true"></span>
+        </p>
+
+        <ul class="focus">
+            <li class="card" style="--i: 0">
+                <span class="tag">// 01</span>
+                <h2>software engineering</h2>
+                <p>Clean, reliable systems — from first prototype to production.</p>
+            </li>
+            <li class="card" style="--i: 1">
+                <span class="tag">// 02</span>
+                <h2>energy markets</h2>
+                <p>Day-ahead, intraday &amp; balancing — where power meets price.</p>
+            </li>
+            <li class="card" style="--i: 2">
+                <span class="tag">// 03</span>
+                <h2>energy grids</h2>
+                <p>The networks that keep the lights on and the electrons flowing.</p>
+            </li>
+            <li class="card" style="--i: 3">
+                <span class="tag">// 04</span>
+                <h2>data science</h2>
+                <p>Turning noisy time series into decisions.</p>
+            </li>
+        </ul>
+
+        <nav class="links">
+            <a href="https://github.com/bijlpieter" target="_blank" rel="noopener">github</a>
+        </nav>
+    </main>
 </body>
 
 </html>
